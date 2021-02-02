@@ -2,7 +2,7 @@ import os
 import random
 import discord
 from dotenv import load_dotenv
-
+import google_search
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
@@ -20,13 +20,14 @@ async def on_ready():
 async def on_message(message):
     # if message.author == client.user:
     #     return
-    print(message.content)
     msg = message.content.lower()
     if msg in GREETINGS:
         response = "yo"
         await message.channel.send(response)
     elif msg[0:7] == "!google":
-        await message.channel.send(msg[7:])
+        search_result = google_search.SearchGoogle(msg[7:]).search()
+        for res in search_result:
+            await message.channel.send(res)
     elif msg[0:7] == "!recent":
         await message.channel.send(msg[7:])
 

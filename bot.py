@@ -8,6 +8,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 GREETINGS=["hi","hey"]
+GUILDLINE = ["Try 'Hi'","Try !google 'you want to search'","Try !recent or !recent 'you had search'"]
 client = discord.Client()
 @client.event
 async def on_ready():
@@ -28,25 +29,28 @@ async def on_member_join(member):
 async def on_message(message):
     if message.author == client.user:
         return
-    msg = message.content.lower()
-    if msg in GREETINGS:
-        response = "Hey"
-        await message.channel.send(response)
-    elif msg[0:7] == "!google":
-        tosearch = msg[7:]
-        if len(tosearch) < 1:
-            await message.channel.send("Try !google 'you want to search'")
-        history.History(message.author.id,tosearch).save_history()
-        search_result = google_search.SearchGoogle(tosearch).search()
-        for res in search_result:
-            await message.channel.send(res)
-    elif msg[0:7] == "!recent":
-        rows = history.History(message.author.id,msg[7:]).get_history()
-        if rows is not None and len(rows) > 0:
-            for res in rows:
-                await message.channel.send(res[2])
+    try:
+        msg = message.content.lower()
+        if msg in GREETINGS:
+            response = "Hey"
+            await message.channel.send(response)
+        elif msg[0:7] == "!google":
+            tosearch = msg[7:].strip()
+            if len(tosearch) < 1:
+                await message.channel.send(GUILDLINE[1])
+                return
+            history.History(message.author.id,tosearch).save_history()
+            search_result = google_search.SearchGoogle(tosearch).search()
+            for res in search_result:
+                await message.channel.send(res)
+        elif msg[0:7] == "!recent":
+            rows = history.History(message.author.id,msg[7:].strip()).get_history()
+            if rows is not None and len(rows) > 0:
+                await message.channel.send("\n".join(rows))
+            else:
+                await message.channel.send("No recent search")
         else:
-            await message.channel.send("No recent search")
-    # else:
-    #     await message.channel.send("Try")
+            await message.channel.send("\n".join(GUILDLINE))
+    except:
+        pass
 client.run(TOKEN)

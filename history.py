@@ -17,9 +17,12 @@ class History():
         try:
             if conn is not None:
                 c = conn.cursor() 
-                c.execute(history_table)
-                c.execute("INSERT INTO history (user_id,query) VALUES (?, ?);" ,(self.id,self.query))
-                conn.commit() 
+                # c.execute(history_table)
+                c.execute("SELECT COUNT(*) FROM history WHERE user_id=? and query = ?", (self.id,self.query))
+                data=c.fetchone()[0]
+                if data==0:
+                    c.execute("INSERT INTO history (user_id,query) VALUES (?, ?);" ,(self.id,self.query))
+                    conn.commit() 
                 conn.close()
         except Error as e:
             print(e)
@@ -30,9 +33,13 @@ class History():
         try:
             if conn is not None:
                 c = conn.cursor() 
-                c.execute(history_table)
-                c.execute("SELECT * FROM history WHERE user_id=? and query like ?", (self.id,f'%{self.query}%'))
-                rows = c.fetchall()
+                # c.execute(history_table)
+                c.execute("SELECT query FROM history WHERE user_id=? and query like ?", (self.id,f'%{self.query}%'))
+                rowsdata = c.fetchall()
+                rows=[]
+                for row in rowsdata:
+                    if row[0] != "":
+                        rows.append(row[0])
                 conn.close()
         except Error as e:
             print(e)
@@ -42,6 +49,8 @@ class History():
         conn = None
         try:
             conn = sqlite3.connect(db_file)
+            c = conn.cursor() 
+            c.execute(history_table)
             return conn
         except Error as e:
             print(e)

@@ -1,5 +1,5 @@
 # discord_bot
-Invitation link
-https://discord.gg/ZAUNJrMJcm
 
-bot name = bot_rijul
+Try 'Hi'
+Try !google 'you want to search'
+Try !recent or !recent 'you had search'

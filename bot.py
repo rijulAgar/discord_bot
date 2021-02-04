@@ -10,8 +10,8 @@ import google_search
 import history
 
 # load_dotenv()
-TOKEN = os.environ('DISCORD_TOKEN')
-GUILD = os.environ('DISCORD_GUILD')
+TOKEN = os.environ.get('DISCORD_TOKEN')
+GUILD = os.environ.get('DISCORD_GUILD')
 
 # defining local variable
 GREETINGS=["hi","hey"]

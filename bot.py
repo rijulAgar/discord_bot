@@ -11,8 +11,7 @@ import history
 
 # load_dotenv()
 TOKEN = os.environ['DISCORD_TOKEN']
-GUILD = "rijul's server"#os.environ.get('DISCORD_GUILD')
-print(TOKEN)
+GUILD = os.environ['DISCORD_GUILD']
 # defining local variable
 GREETINGS=["hi","hey"]
 GUILDLINE = ["Try 'Hi'","Try !google 'you want to search'","Try !recent or !recent 'you had search'"]

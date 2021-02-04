@@ -12,7 +12,7 @@ import history
 # load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
 GUILD = os.environ.get('DISCORD_GUILD')
-
+print(TOKEN)
 # defining local variable
 GREETINGS=["hi","hey"]
 GUILDLINE = ["Try 'Hi'","Try !google 'you want to search'","Try !recent or !recent 'you had search'"]

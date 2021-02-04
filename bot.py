@@ -1,7 +1,7 @@
 import os
 import random
 import discord
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 #import module for google search
 import google_search
@@ -9,9 +9,9 @@ import google_search
 #import module for saving history in databse
 import history
 
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
+# load_dotenv()
+TOKEN = os.environ('DISCORD_TOKEN')
+GUILD = os.environ('DISCORD_GUILD')
 
 # defining local variable
 GREETINGS=["hi","hey"]
